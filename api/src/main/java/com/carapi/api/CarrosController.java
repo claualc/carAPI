@@ -11,6 +11,7 @@ import com.carapi.domain.Carro;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,7 @@ public class CarrosController {
 
 
     @PostMapping
+    @Secured({"ROLE_ADMIN"})
     //RequestBody serializa para carro diretamente
     public ResponseEntity post(@RequestBody Carro carro) {
         try {
@@ -63,6 +65,7 @@ public class CarrosController {
                 .buildAndExpand(c.getId()).toUri();
             return ResponseEntity.created(location).build();
         } catch (Exception ex) {
+            System.out.println("ENTROU NO CATHCCCCCCCCCCCCCCCCCCCCCCC");
             return ResponseEntity.badRequest().build();
         }
     }

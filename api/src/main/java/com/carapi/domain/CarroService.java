@@ -20,6 +20,7 @@ public class CarroService {
         List<Carro> carros = rep.findAll();
 
         // percorre carro por carro gerando uma lista de carroDTO
+        System.out.println(carros);
         List<CarroDTO> list = carros.stream().map(CarroDTO::new)
             .collect(Collectors.toList());
 
@@ -49,14 +50,9 @@ public class CarroService {
         // carro_do_db !== carro do intput, um vem do json outor do db, com foreyng key muda
         Optional<Carro> carro_do_db = rep.findById(id);
         if(carro_do_db.isPresent()) {
-            Carro db = carro_do_db.get();
-            
-            //copiar propiedades
-            db.setNome(carro.getNome());
-            db.setTipo(carro.getTipo());
 
-            rep.save(db);
-            return new CarroDTO(db);
+            rep.update(id, carro);
+            return new CarroDTO(carro);
         } else {
             throw new RuntimeException("Não foi possível atualizar o registro");
         }
